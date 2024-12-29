@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblio-Dash</title>
+    <link rel="stylesheet" href="../static/book.css">
+    <!-- FontAwesome for icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="logo"> <span>Biblio-Dash</span></div>
+        <nav class="nav">
+            <a href="/">Home</a>
+            <a href="#">My Books</a>
+            <a href="#">Browse</a>
+            <a href="#">Community</a>
+        </nav>
+        <div class="search-bar">
+            <input type="text" placeholder="Search books...">
+            <button><i class="fas fa-search"></i></button>
+        </div>
+    </header>
+    <main>
+        <section class="book-container">
+            <div class="book-info">
+                <h3>Uploaded image:</h3>
+                <div class="book-cover">
+                    <img src="{{book_details['volumeInfo']['imageLinks']['smallThumbnail']}}" alt="Murder on the Orient Express">
+                </div>
+                <a href="{{ book_details['saleInfo']['buyLink'] }}">
+                    <button class="shop-series">
+                        Shop this book
+                        {% if book_details['saleInfo'].get('listPrice') %}
+                            - {{ book_details['saleInfo']['listPrice']['amount'] }} {{ book_details['saleInfo']['listPrice']['currencyCode'] }}
+                        {% endif %}
+                        <i class="fas fa-chevron-down" class="buy_link"></i>
+                    </button>
+                </a>
+                
+                <div class="rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <span>Rate this Book !!!</span>
+                </div>
+            </div>
+            <div class="book-details">
+                <div class="title-div">
+                    <h2>{{book_details["volumeInfo"]["title"]}}</h2>
+                    <div style="display:flex; gap:5px">
+                        <img src="../static/files.png" class="pages-icon" />
+                        <p>{{book_details["volumeInfo"]["pageCount"]}}</p>
+                    </div>
+                </div>
+                <div class="author-div">
+                    <p>By {{book_details["volumeInfo"]["authors"][0]}}</p>-
+                    <p>{{book_details["volumeInfo"]["publishedDate"]}}</p>
+                </div>
+                <h3><b>Description:</b></h3>
+                <p>{{ book_details["volumeInfo"].get("description", "No description found.") }}</p>
+                <h3>Similar Books Found:</h3>
+                <ol>
+                    {% for book in books %}
+                        <a href="/books?title={{book['volumeInfo']['title']|urlencode}}"><li><strong>{{ book["volumeInfo"]["title"] }}</strong> by {{ book["volumeInfo"]["authors"][0] }}</li></a>
+                    {% endfor %}
+                </ol>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="footer-icons">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+        <div class="language-selector">
+            <select>
+                <option>English</option>
+                <option>Hindi</option>
+            </select>
+        </div>
+    </footer>
+</body>
+</html>

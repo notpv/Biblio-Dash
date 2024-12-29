@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Text Processing Tool</title>
+    <link rel="stylesheet" href="../static/index.css" />
+  </head>
+  <body>
+    <nav>
+      <div class="logo">Biblio-Dash</div>
+      <div class="nav-items">
+        <a href="/">Home</a> <a href="/">About</a> <a href="/">Contact</a>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-container">
+        <div class="column-left">
+          <h1>
+            <strong>"Discover Your Next Favorite Book in Seconds!"</strong>
+          </h1>
+          <p>
+            Welcome to <strong> Biblio-Dash</strong>, where discovering books is
+            made effortless and fun! Simply upload an image of the book you’re
+            curious about, and let our intelligent algorithm do the rest. In
+            just seconds, you'll receive detailed information about the book—its
+            title, author, year of publication, and a brief description—directly
+            from the image you uploaded. Plus, we provide direct links to
+            trusted platforms where you can order your book with ease.
+          </p>
+        </div>
+        <div class="column-right">
+          <img
+            src="../static/image1.svg"
+            alt="illustration"
+            class="hero-image"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="image-upload">
+      <h1>Choose your Book:</h1>
+      <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" required />
+        <button type="submit">Upload</button>
+      </form>
+		<div class="book-holder">
+			{% for book in books_info %}
+			<a href="/books?title={{book.title|urlencode}}">
+				<div class="book-result">
+					<img src="{{book.thumbnail}}" class="book-cover" />
+					<h4>{{book.title}}</h4>
+					<p class="author-name">{{book.authors}}}</p>
+				</div>
+			{% endfor %}
+			</a>
+		</div>
+	  {% if extracted_text is not none %}
+      <h3>Extracted Text</h3>
+      <p>{{ extracted_text }}</p>
+      {% endif %}
+    </section>
+  </body>
+</html>
